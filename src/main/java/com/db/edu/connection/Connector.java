@@ -10,8 +10,10 @@ public class Connector extends ObjectConnection {
     public void connect() {
         try {
             Socket socket = new Socket(InetAddress.getLoopbackAddress(), 9999);
-            output = new ObjectOutputStream(new BufferedOutputStream(socket.getOutputStream()));
-            input = new ObjectInputStream(new BufferedInputStream(socket.getInputStream()));
+            System.out.println("Connected");
+            output = new ObjectOutputStream((socket.getOutputStream()));
+            input = new ObjectInputStream((socket.getInputStream()));
+            System.out.println("Streams created");
         } catch (IOException e) {
             e.printStackTrace();
         }

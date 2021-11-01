@@ -5,7 +5,6 @@ import com.db.edu.connection.Acceptor;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 
 public class Server {
     static public void main(String[] args) {
@@ -15,6 +14,7 @@ public class Server {
         while (true) {
             try {
                 Message message = (Message) proxy.receive();
+                System.out.println("Received");
                 List<Message> messages = controller.execute(message);
                 for (Message m : messages) {
                     proxy.send(m);
