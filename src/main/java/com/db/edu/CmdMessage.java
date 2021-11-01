@@ -2,13 +2,13 @@ package com.db.edu;
 
 import java.util.Date;
 
-public class CmdMessage implements Message{
+public class CmdMessage implements Message {
 
     private String identifier;
     private String dateValue;
     private String commandMessage;
 
-    public CmdMessage(String identifier, String dateValue,String commandMessage) {
+    public CmdMessage(String identifier, String dateValue, String commandMessage) {
         this.identifier = identifier;
         this.commandMessage = commandMessage;
         this.dateValue = dateValue;
@@ -28,6 +28,4 @@ public class CmdMessage implements Message{
     public String getIdentifier() {
         return this.identifier;
     }
-
-
 }

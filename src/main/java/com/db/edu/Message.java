@@ -7,6 +7,4 @@ public interface Message {
     String getBody();
     String getDateValue();
     String getIdentifier();
-
-
 }
