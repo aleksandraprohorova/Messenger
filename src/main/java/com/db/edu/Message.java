@@ -1,10 +1,12 @@
 package com.db.edu;
 
+import java.util.Date;
+
 public interface Message {
 
     String getBody();
-
-    Integer getIdentifier();
+    String getDateValue();
+    String getIdentifier();
 
 
 }
