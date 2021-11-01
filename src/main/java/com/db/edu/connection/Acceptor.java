@@ -5,8 +5,6 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 public class Acceptor extends ObjectConnection {
-    private ObjectInputStream input;
-    private ObjectOutputStream output;
     private ServerSocket serversocket;
 
     @Override

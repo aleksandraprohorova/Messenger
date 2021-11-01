@@ -14,7 +14,8 @@ public class Application {
         try {
             proxy.send(message);
             System.out.println("Sended");
-            proxy.receive();
+            Message answer = proxy.receive();
+            System.out.println(answer.getBody());
         } catch (IOException e) {
             e.printStackTrace();
         }
