@@ -1,5 +1,6 @@
 package com.db.edu;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -7,6 +8,14 @@ import java.util.List;
 public class MessageController implements Controller {
 
     private FileHandler filehandler;
+
+    MessageController() {
+        try {
+            filehandler = new FileHandler();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public List<Message> execute(Message message) {
