@@ -4,20 +4,24 @@ import com.db.edu.client.Proxy;
 import com.db.edu.connection.Connector;
 
 import java.io.*;
+import java.util.Scanner;
 
 public class Application {
 
     public static void main(String[] argc) {
         Proxy proxy = new Proxy(new Connector());
         MessageCreator creator = new MessageCreator();
-        Message message = new DataMessage("id", "data", "message");//creator.createMessage("id", "data", "/snd text body");
-        try {
-            proxy.send(message);
-            System.out.println("Sended");
-            Message answer = proxy.receive();
-            System.out.println(answer.getBody());
-        } catch (IOException e) {
-            e.printStackTrace();
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            Message message = creator.createMessage("id", "data", scanner.nextLine());
+            try {
+                proxy.send(message);
+                Message answer = proxy.receive();
+                System.out.println(answer.getIdentifier() + " " + answer.getDateValue() + " " + answer.getBody());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

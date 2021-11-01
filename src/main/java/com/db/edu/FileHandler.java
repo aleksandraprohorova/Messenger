@@ -32,9 +32,8 @@ public class FileHandler {
 
     public void write(Message message) {
         try {
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+            Writer writer = new OutputStreamWriter(new FileOutputStream(file, true));
             writer.write(getLineToWrite(message));
-            writer.flush();
         } catch (IOException e) {
             //TODO log error
             e.printStackTrace();
