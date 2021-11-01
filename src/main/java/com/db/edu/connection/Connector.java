@@ -6,6 +6,7 @@ import java.net.Socket;
 
 public class Connector extends ObjectConnection {
 
+    @Override
     public void connect() {
         try {
             Socket socket = new Socket(InetAddress.getLoopbackAddress(), 9999);

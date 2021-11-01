@@ -9,7 +9,8 @@ public class Acceptor extends ObjectConnection {
     private ObjectOutputStream output;
     private ServerSocket serversocket;
 
-    private void connect() {
+    @Override
+    public void connect() {
         try {
             if (serversocket != null) serversocket.close();
             serversocket = new ServerSocket(9999);

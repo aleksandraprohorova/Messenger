@@ -1,14 +1,15 @@
 package com.db.edu;
 
 import com.db.edu.client.Proxy;
-import com.db.edu.connection.Connector;
+import com.db.edu.connection.Acceptor;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Scanner;
 
 public class Server {
     static public void main(String[] args) {
-        Proxy proxy = new Proxy(new Connector());
+        Proxy proxy = new Proxy(new Acceptor());
         Controller controller = new MessageController();
 
         while (true) {

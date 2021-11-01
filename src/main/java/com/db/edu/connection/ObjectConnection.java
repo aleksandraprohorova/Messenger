@@ -15,4 +15,5 @@ public abstract class ObjectConnection implements Connection {
     public ObjectInputStream getInput() {
         return input;
     }
+
 }

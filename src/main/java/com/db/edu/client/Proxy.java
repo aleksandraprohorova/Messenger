@@ -1,5 +1,6 @@
 package com.db.edu.client;
 
+import com.db.edu.connection.Connection;
 import com.db.edu.connection.Connector;
 
 import java.io.IOException;
@@ -7,9 +8,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class Proxy {
-    private final Connector connector;
+    private final Connection connector;
 
-    public Proxy(Connector connector) {
+    public Proxy(Connection connector) {
         this.connector = connector;
     }
 
