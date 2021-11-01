@@ -5,6 +5,6 @@ import java.util.Date;
 public interface Message {
 
     String getBody();
-    String getDateValue();
+    Date getDateValue();
     String getIdentifier();
 }

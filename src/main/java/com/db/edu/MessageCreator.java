@@ -1,8 +1,10 @@
 package com.db.edu;
 
+import java.util.Date;
+
 public class MessageCreator {
 
-    public Message createMessage(String identifier, String dateValue, String inputText) {
+    public Message createMessage(String identifier, Date dateValue, String inputText) {
 
         if (inputText.startsWith("/snd <")) {
             return new DataMessage(identifier, dateValue, inputText.substring(inputText.indexOf("<")+1, inputText.indexOf(">")));

@@ -60,10 +60,10 @@
                 </dependencies>
                 <configuration>
                     <targetClasses>
-                        <param>com.acme.edu.*</param>
+                        <param>com.db.edu.*</param>
                     </targetClasses>
                     <targetTests>
-                        <param>com.acme.edu.*</param>
+                        <param>com.db.edu.*</param>
                     </targetTests>
                     <verbose>true</verbose>
                 </configuration>

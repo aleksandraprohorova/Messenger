@@ -5,10 +5,10 @@ import java.util.Date;
 public class DataMessage implements Message{
 
     private String identifier;
-    private String dateValue;
+    private Date dateValue;
     private String dataMessage;
 
-    public DataMessage(String identifier, String dateValue, String dataMessage) {
+    public DataMessage(String identifier, Date dateValue, String dataMessage) {
         this.identifier = identifier;
         this.dataMessage = dataMessage;
         this.dateValue = dateValue;
@@ -20,7 +20,7 @@ public class DataMessage implements Message{
     }
 
     @Override
-    public String getDateValue() {
+    public Date getDateValue() {
         return this.dateValue;
     }
 
