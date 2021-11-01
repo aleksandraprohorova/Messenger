@@ -1,12 +1,17 @@
-package com.db.edu.messager;
+package com.db.edu;
 
-public class DataMessage implements Message {
+import java.util.Date;
 
-    private Integer identifier;
+public class DataMessage implements Message{
+
+    private String identifier;
+    private String dateValue;
     private String dataMessage;
 
-    DataMessage(String name){
-        this.dataMessage = name;
+    public DataMessage(String identifier, String dateValue, String dataMessage) {
+        this.identifier = identifier;
+        this.dataMessage = dataMessage;
+        this.dateValue = dateValue;
     }
 
     @Override
@@ -15,7 +20,12 @@ public class DataMessage implements Message {
     }
 
     @Override
-    public Integer getIdentifier() {
+    public String getDateValue() {
+        return this.dateValue;
+    }
+
+    @Override
+    public String getIdentifier() {
         return this.identifier;
     }
 }

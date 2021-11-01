@@ -1,9 +1,18 @@
-package com.db.edu.messager;
+package com.db.edu;
 
-public class CmdMessage implements Message {
+import java.util.Date;
 
-    private Integer identifier;
+public class CmdMessage implements Message{
+
+    private String identifier;
+    private String dateValue;
     private String commandMessage;
+
+    public CmdMessage(String identifier, String dateValue,String commandMessage) {
+        this.identifier = identifier;
+        this.commandMessage = commandMessage;
+        this.dateValue = dateValue;
+    }
 
     @Override
     public String getBody() {
@@ -11,7 +20,12 @@ public class CmdMessage implements Message {
     }
 
     @Override
-    public Integer getIdentifier() {
+    public String getDateValue() {
+        return this.dateValue;
+    }
+
+    @Override
+    public String getIdentifier() {
         return this.identifier;
     }
 
