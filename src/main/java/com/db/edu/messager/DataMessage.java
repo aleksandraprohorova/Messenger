@@ -1,11 +1,13 @@
-package com.db.edu;
+package com.db.edu.messager;
 
-public class DataMessage implements Message{
+public class DataMessage implements Message {
 
     private Integer identifier;
     private String dataMessage;
 
-
+    DataMessage(String name){
+        this.dataMessage = name;
+    }
 
     @Override
     public String getBody() {

@@ -1,6 +1,6 @@
-package com.db.edu;
+package com.db.edu.messager;
 
-public class CmdMessage implements Message{
+public class CmdMessage implements Message {
 
     private Integer identifier;
     private String commandMessage;
