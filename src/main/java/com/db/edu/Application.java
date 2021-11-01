@@ -8,17 +8,25 @@ import java.util.Scanner;
 
 public class Application {
 
+    static private String id = "id";
+
     public static void main(String[] argc) {
         Proxy proxy = new Proxy(new Connector());
         MessageCreator creator = new MessageCreator();
         Scanner scanner = new Scanner(System.in);
-
+        Listener listener = new Listener(proxy);
         while (true) {
-            Message message = creator.createMessage("id", "data", scanner.nextLine());
             try {
-                proxy.send(message);
-                Message answer = proxy.receive();
-                System.out.println(answer.getIdentifier() + " " + answer.getDateValue() + " " + answer.getBody());
+                if (listener.hasMessage()) {
+                    Message answer = listener.getMessage();
+                    System.out.println(answer.getIdentifier() + " " + answer.getDateValue() + " " + answer.getBody());
+                    listener.resetMessage();
+                }
+                if (scanner.hasNextLine()) {
+                    Message message = creator.createMessage(id, "data", scanner.nextLine());
+                    proxy.send(message);
+                }
+
             } catch (IOException e) {
                 e.printStackTrace();
             }
