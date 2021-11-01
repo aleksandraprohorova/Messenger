@@ -14,15 +14,13 @@ public class FileHandler {
         }
     }
 
-    // format: data id text
     public ArrayList<Message> readAll() {
         ArrayList<Message> messages = new ArrayList<Message>();
 
         try {
             Files.lines(file.toPath()).forEach((e) -> {
                         String[] arrayMessage = e.split(" ");
-                        //TODO MessageCreator.getDataMessage(String data, Integer id, String text)
-//                        messages.add(new DataMessage(arrayMessage[0], arrayMessage[1], arrayMessage[2]));
+                        messages.add(new DataMessage(arrayMessage[1], arrayMessage[0], arrayMessage[2]));
                     }
             );
         } catch (IOException e) {
@@ -34,12 +32,15 @@ public class FileHandler {
 
     public void write(Message message) {
         try {
-            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-            writer.write(message.getBody());
-            writer.flush();
+            Writer writer = new OutputStreamWriter(new FileOutputStream(file, true));
+            writer.write(getLineToWrite(message));
         } catch (IOException e) {
             //TODO log error
             e.printStackTrace();
         }
+    }
+
+    private String getLineToWrite(Message message) {
+        return message.getIdentifier() + " " + message.getDateValue() + " " + message.getBody();
     }
 }
