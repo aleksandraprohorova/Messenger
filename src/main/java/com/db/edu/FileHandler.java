@@ -1,7 +1,6 @@
 package com.db.edu;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 
@@ -21,16 +20,30 @@ public class FileHandler {
 
         try {
             Files.lines(file.toPath()).forEach((e) -> {
-                String[] arrayMessage = e.split(" ");
-                messages.add(new DataMessage(arrayMessage[0], arrayMessage[1], arrayMessage[2]);
-            }
+                        String[] arrayMessage = e.split(" ");
+                        //TODO MessageCreator.getDataMessage(String data, Integer id, String text)
+//                        messages.add(new DataMessage(arrayMessage[0], arrayMessage[1], arrayMessage[2]));
+                    }
+            );
         } catch (IOException e) {
+            //TODO log error
             e.printStackTrace();
         }
-    });
-
-}
+        return messages;
+    }
 
     public void write(Message message) {
-        Files.writeString(file.toPath(), message.getBody());
+        try {
+            Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
+            writer.write(message.getBody());
+            writer.flush();
+        } catch (IOException e) {
+            //TODO log error
+            e.printStackTrace();
+        }
     }
+}
+
+
+
+

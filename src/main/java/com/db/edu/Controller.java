@@ -1,5 +1,7 @@
 package com.db.edu;
 
+import java.util.List;
+
 public interface Controller {
-    void parse(Message message);
+    List<Message> execute(Message message);
 }

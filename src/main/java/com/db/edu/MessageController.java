@@ -1,22 +1,24 @@
 package com.db.edu;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 public class MessageController implements Controller {
 
-    private Sceleton sceleton;
     private FileHandler filehandler;
 
     @Override
-    public void parse(Message message) {
+    public List<Message> execute(Message message) {
         if (message instanceof CmdMessage) {
-            ArrayList<Message> Messages = filehandler.readAll();
-            for (Message m : Messages) {
-                sceleton.sendAll(m);
-            }
+            return filehandler.readAll();
         } else if (message instanceof DataMessage) {
             filehandler.write(message);
-            sceleton.sendAll(message);
+            List<Message> list = new ArrayList<>();
+            //TODO list.updateDate(new Date(System.currentTimeMillis()));
+            list.add(message);
+            return list;
         }
+        return new ArrayList<>();
     }
 }
