@@ -1,24 +1,23 @@
 package com.db.edu;
 
-import com.db.edu.client.Proxy;
+import com.db.edu.connection.Proxy;
 import com.db.edu.connection.Acceptor;
+import com.db.edu.controller.Controller;
+import com.db.edu.controller.MessageController;
+import com.db.edu.message.Message;
 
 import java.io.IOException;
-import java.util.List;
 
 public class Server {
     static public void main(String[] args) {
-        Proxy proxy = new Proxy(new Acceptor());
+        Proxy proxy = new Proxy(new Acceptor(9999));
         Controller controller = new MessageController();
 
         while (true) {
             try {
-                Message message = (Message) proxy.receive();
-                System.out.println("Received");
-                List<Message> messages = controller.execute(message);
-                for (Message m : messages) {
-                    proxy.send(m);
-                }
+                Message message = proxy.receive();
+                controller.execute(message);
+                proxy.send(message);
             } catch (IOException e) {
                 e.printStackTrace();
             }

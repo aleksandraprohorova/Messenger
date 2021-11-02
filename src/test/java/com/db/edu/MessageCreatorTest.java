@@ -1,5 +1,7 @@
 package com.db.edu;
 
+import com.db.edu.creater.MessageCreater;
+import com.db.edu.message.Message;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -13,14 +15,14 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 public class MessageCreatorTest {
-    private MessageCreator messageCreatorSut;
-    private Date dateValue;
+    private MessageCreater messageCreatorSut;
+    private String dateValue;
     private String identifier;
 
     @BeforeEach
     public void TestsPreparation(){
-        messageCreatorSut = new MessageCreator();
-        dateValue = new Date(System.currentTimeMillis());
+        messageCreatorSut = new MessageCreater();
+        dateValue = new Date(System.currentTimeMillis()).toString();
         identifier = "123";
 
     }
