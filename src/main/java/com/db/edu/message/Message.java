@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 public interface Message extends Serializable {
     String getBody();
-    String getDateValue();
+    Date getDateValue();
     String getIdentifier();
     String getReturnMessage();
     void makeReturnMessage(FileCreater fileCreater);
