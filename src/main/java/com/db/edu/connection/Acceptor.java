@@ -16,8 +16,6 @@ public class Acceptor {
     private final ExecutorService pool = Executors.newFixedThreadPool(10);
     private ServerSocket serversocket;
 
-    private List<Sceleton> clients = new ArrayList<>();
-
     private Controller controller;
 
     public Acceptor(Controller controller, int port) {
@@ -35,8 +33,7 @@ public class Acceptor {
             while (true) {
                 final Socket connection = serversocket.accept();
                 System.out.println("Accepted new connection");
-                Sceleton client = new Sceleton(connection, controller, clients);
-                clients.add(client);
+                Sceleton client = new Sceleton(connection, controller);
                 pool.execute(client);
             }
 
