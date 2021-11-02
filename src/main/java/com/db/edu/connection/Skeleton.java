@@ -2,22 +2,25 @@ package com.db.edu.connection;
 
 import com.db.edu.controller.Controller;
 import com.db.edu.message.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.List;
 
-public class Sceleton implements Runnable {
+public class Skeleton implements Runnable {
 
-    final private Socket connection;
+    private static Logger log = LoggerFactory.getLogger(Skeleton.class);
 
-    protected ObjectInputStream input;
-    protected ObjectOutputStream output;
-    private Controller controller;
+    private final Socket connection;
+    private final Controller controller;
 
-    public Sceleton(Socket connection, Controller controller) {
+    private ObjectInputStream input;
+    private ObjectOutputStream output;
+
+    public Skeleton(Socket connection, Controller controller) {
         this.connection = connection;
         this.controller = controller;
     }
@@ -27,15 +30,26 @@ public class Sceleton implements Runnable {
         try {
             input = new ObjectInputStream((connection.getInputStream()));
             output = new ObjectOutputStream((connection.getOutputStream()));
-            System.out.println("Streams created for " + Thread.currentThread().getName());
-
+            log.info("Client connected at " + Thread.currentThread().getName());
+        } catch (IOException e) {
+            log.error("Can not create Input/Output streams", e);
+        }
+        try {
             while (true) {
                 Message message = receive();
                 controller.execute(message);
                 send(message);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            log.info("ClientSocket stop working at " + Thread.currentThread().getName());
+        } finally {
+            try {
+                input.close();
+                output.close();
+                connection.close();
+            } catch (IOException e) {
+                log.error("ClientSocket can not close", e);
+            }
         }
     }
 
@@ -48,7 +62,7 @@ public class Sceleton implements Runnable {
         try {
             return (Message) input.readObject();
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            log.error("Can not read Message from ObjectStream", e);
         }
         return null;
     }
