@@ -6,7 +6,7 @@ import com.db.edu.message.Message;
 
 public class MessageCreater {
 
-    public static Message createMessage(String identifier, String dateValue, String inputText) {
+    public  Message createMessage(String identifier, String dateValue, String inputText) {
 
         if (inputText.contains("/snd")) {
             return new SndMessage(identifier, dateValue, inputText.substring(inputText.indexOf("<")+1, inputText.indexOf(">")));
