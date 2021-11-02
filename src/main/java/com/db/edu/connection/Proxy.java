@@ -1,8 +1,7 @@
-package com.db.edu.client;
+package com.db.edu.connection;
 
-import com.db.edu.Message;
+import com.db.edu.message.Message;
 import com.db.edu.connection.Connection;
-import com.db.edu.connection.Connector;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,18 +9,19 @@ import java.io.ObjectOutputStream;
 
 public class Proxy {
     private final Connection connector;
-
+    private ObjectOutputStream output;
+    private ObjectInputStream input;
     public Proxy(Connection connector) {
         this.connector = connector;
+        connector.connect();
     }
 
-    public void send(Object message) throws IOException {
+    public void send(Message message) throws IOException {
         int count = 0;
         int maxTries = 10;
-
         while (true) {
             try {
-                ObjectOutputStream output = connector.getOutput();
+                output = connector.getOutput();
                 output.writeObject(message);
                 output.flush();
                 return;
@@ -35,7 +35,6 @@ public class Proxy {
     public Message receive() throws IOException {
         int count = 0;
         int maxTries = 10;
-
         while (true) {
             try {
                 ObjectInputStream input = connector.getInput();

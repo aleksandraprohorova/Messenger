@@ -1,11 +1,13 @@
-package com.db.edu;
+package com.db.edu.message;
+
+import com.db.edu.creater.FileCreater;
 
 import java.io.Serializable;
-import java.util.Date;
 
 public interface Message extends Serializable {
-
     String getBody();
     String getDateValue();
     String getIdentifier();
+    String getReturnMessage();
+    void makeReturnMessage(FileCreater fileCreater);
 }
