@@ -1,4 +1,4 @@
-package com.db.edu;
+package com.db.edu.connection;
 
 import com.db.edu.controller.Controller;
 import com.db.edu.message.Message;
@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.List;
 
 public class Sceleton implements Runnable {
 
@@ -15,10 +16,13 @@ public class Sceleton implements Runnable {
     protected ObjectInputStream input;
     protected ObjectOutputStream output;
     private Controller controller;
+    private List<Sceleton> clients;
 
-    public Sceleton(Socket connection, Controller controller) {
+
+    public Sceleton(Socket connection, Controller controller, List<Sceleton> clients) {
         this.connection = connection;
         this.controller = controller;
+        this.clients = clients;
     }
 
     @Override
@@ -31,7 +35,10 @@ public class Sceleton implements Runnable {
             while (true) {
                 Message message = receive();
                 controller.execute(message);
-                send(message);
+
+                for (Sceleton client: clients) {
+                    client.send(message);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();

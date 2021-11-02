@@ -1,0 +1,1 @@
+java -jar target/client-main-jar-with-dependencies.jar
