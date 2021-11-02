@@ -16,13 +16,10 @@ public class Sceleton implements Runnable {
     protected ObjectInputStream input;
     protected ObjectOutputStream output;
     private Controller controller;
-    private List<Sceleton> clients;
 
-
-    public Sceleton(Socket connection, Controller controller, List<Sceleton> clients) {
+    public Sceleton(Socket connection, Controller controller) {
         this.connection = connection;
         this.controller = controller;
-        this.clients = clients;
     }
 
     @Override
@@ -35,10 +32,7 @@ public class Sceleton implements Runnable {
             while (true) {
                 Message message = receive();
                 controller.execute(message);
-
-                for (Sceleton client: clients) {
-                    client.send(message);
-                }
+                send(message);
             }
         } catch (IOException e) {
             e.printStackTrace();
