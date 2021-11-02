@@ -19,7 +19,7 @@ public class Client {
             try {
                 if (listener.hasMessage()) {
                     Message answer = listener.getMessage();
-                    System.out.println(answer.getIdentifier() + " " + answer.getDateValue() + " " + answer.getBody());
+                    System.out.println(answer.getReturnMessage());
                     listener.resetMessage();
                 }
                 if (reader.ready()) {
