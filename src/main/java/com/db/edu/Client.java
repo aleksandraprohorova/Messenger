@@ -38,7 +38,7 @@ public class Client {
                 try {
                     proxy.send(message);
                 } catch (IOException e) {
-                    e.printStackTrace();
+                   System.out.println("Connection timeout");
                 }
             }
         };

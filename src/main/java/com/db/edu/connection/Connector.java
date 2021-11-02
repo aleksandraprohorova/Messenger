@@ -10,12 +10,11 @@ public class Connector extends ObjectConnection {
     public void connect() {
         try {
             Socket socket = new Socket(InetAddress.getLoopbackAddress(), 55555);
-            System.out.println("Connected");
+            System.out.println("Connected to the Server");
             output = new ObjectOutputStream((socket.getOutputStream()));
             input = new ObjectInputStream((socket.getInputStream()));
-            System.out.println("Streams created");
         } catch (IOException e) {
-            e.printStackTrace();
+            System.out.println("Connection with server lost");
         }
     }
 }

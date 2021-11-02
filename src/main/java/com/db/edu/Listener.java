@@ -33,7 +33,7 @@ public class Listener extends Thread{
             try {
                 messageBuffer = proxy.receive();
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("Connection with server lost");
             }
         }
     }
