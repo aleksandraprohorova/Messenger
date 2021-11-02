@@ -9,7 +9,7 @@ public class Connector extends ObjectConnection {
     @Override
     public void connect() {
         try {
-            Socket socket = new Socket(InetAddress.getLoopbackAddress(), 9999);
+            Socket socket = new Socket(InetAddress.getLoopbackAddress(), 55555);
             System.out.println("Connected");
             output = new ObjectOutputStream((socket.getOutputStream()));
             input = new ObjectInputStream((socket.getInputStream()));
