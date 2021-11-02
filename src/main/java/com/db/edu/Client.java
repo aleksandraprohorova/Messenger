@@ -6,23 +6,29 @@ import com.db.edu.creater.MessageCreater;
 import com.db.edu.message.Message;
 
 import java.io.*;
-import java.util.Scanner;
 
 public class Client {
     public static void main(String[] argc) {
+
         Proxy proxy = new Proxy(new Connector());
         MessageCreater creator = new MessageCreater();
-        Scanner scanner = new Scanner(System.in);
-        Message message, answer;
-
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        Listener listener = new Listener(proxy);
+        listener.start();
         while (true) {
-            message = creator.createMessage("id", "data", scanner.nextLine());
             try {
-                proxy.send(message);
-                answer = proxy.receive();
-                System.out.print(answer.getReturnMessage());
-            } catch (IOException exception) {
-                exception.printStackTrace();
+                if (listener.hasMessage()) {
+                    Message answer = listener.getMessage();
+                    System.out.println(answer.getIdentifier() + " " + answer.getDateValue() + " " + answer.getBody());
+                    listener.resetMessage();
+                }
+                if (reader.ready()) {
+                    Message message = creator.createMessage("id", "data", reader.readLine());
+                    proxy.send(message);
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
     }

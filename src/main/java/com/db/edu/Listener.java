@@ -1,6 +1,7 @@
 package com.db.edu;
 
-import com.db.edu.client.Proxy;
+import com.db.edu.connection.Proxy;
+import com.db.edu.message.Message;
 
 import java.io.IOException;
 
