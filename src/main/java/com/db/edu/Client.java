@@ -9,6 +9,7 @@ import com.db.edu.message.Message;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -74,7 +75,7 @@ public class Client {
     }
 
         private static void createMessageSource(String messageSourceName){
-            Path path = Path.of(messageSourceName);
+            Path path = Paths.get(messageSourceName);
             if (!Files.exists(path)) {
                 try {
                     Files.createFile(path);
