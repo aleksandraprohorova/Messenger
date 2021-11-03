@@ -10,11 +10,13 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import static java.lang.System.lineSeparator;
 
 public class Client {
-    public static void main(String[] argc) {
+    public static void main(String[] argc) throws IOException {
         Proxy proxy = new Proxy(new Connector());
         MessageCreater creator = new MessageCreater();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -23,6 +25,7 @@ public class Client {
         Long timeMillis = System.currentTimeMillis();
         String messageSourceName = "messageBuffer" + timeMillis.toString() + ".txt";
         createMessageSource(messageSourceName);
+        ExecutorService executorService = Executors.newFixedThreadPool(1);
         createInputConsole();
 
         String outputHistory = "";
@@ -39,6 +42,7 @@ public class Client {
                 }
             }
         };
+
 
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(timerTask, 0, 5 * 1000);
@@ -121,38 +125,10 @@ public class Client {
         }
 
         private static void createInputConsole() {
-            System.out.println("test");
-            Scanner scanner = new Scanner(System.in);
-
-            final File folder = new File(".");
-            String messageBufferName = getMessageBufferName(folder);
-
-            while (true) {
-                String line = scanner.nextLine();
-                try(FileWriter writer = new FileWriter(messageBufferName, true))
-                {
-                    writer.write(line + lineSeparator());
-                    writer.flush();
-                }
-                catch(IOException ex){
-                    System.out.println(ex.getMessage());
-                }
+            try {
+                Runtime.getRuntime().exec("cmd /c start runjava.bat");
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }
-
-    private static String getMessageBufferName(final File folder) {
-        List<String> files = new ArrayList<>();
-        for (final File fileEntry : folder.listFiles()) {
-            if (fileEntry.isFile()) {
-                String fileName = fileEntry.toString();
-                if (fileName.contains("messageBuffer")) {
-                    files.add(fileName);
-                }
-            }
-        }
-
-        Collections.sort(files);
-        System.out.println(files.get(files.size() - 1));
-        return files.get(files.size() - 1);
-    }
 }
