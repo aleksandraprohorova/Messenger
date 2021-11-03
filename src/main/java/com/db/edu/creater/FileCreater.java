@@ -3,6 +3,7 @@ package com.db.edu.creater;
 import com.db.edu.message.Message;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
 
 public class FileCreater {
 
@@ -20,7 +21,7 @@ public class FileCreater {
 
     public void write(Message message) {
         try {
-            Writer writer = new OutputStreamWriter(new FileOutputStream(file, true));
+            Writer writer = new OutputStreamWriter(new FileOutputStream(file, true), StandardCharsets.UTF_16);
             writer.write(getLineToWrite(message));
             writer.flush();
         } catch (IOException e) {

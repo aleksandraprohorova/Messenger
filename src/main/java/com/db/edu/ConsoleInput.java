@@ -1,8 +1,7 @@
 package com.db.edu;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -12,17 +11,17 @@ import static java.lang.System.lineSeparator;
 
 public class ConsoleInput {
 
-    public static void main(String[] args) {
-        System.out.println("test");
-        Scanner scanner = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
         final File folder = new File(".");
         String messageBufferName = getMessageBufferName(folder);
 
         while (true) {
-            String line = scanner.nextLine();
-            try(FileWriter writer = new FileWriter(messageBufferName, true))
-            {
+            String line = reader.readLine();
+            try (
+                    FileOutputStream stream = new FileOutputStream(messageBufferName);
+                    OutputStreamWriter writer = new OutputStreamWriter(stream, StandardCharsets.UTF_16)) {
                 writer.write(line + lineSeparator());
                 writer.flush();
             }

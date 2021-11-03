@@ -28,7 +28,7 @@ public class Proxy {
         while (true) {
             try {
                 output = connector.getOutput();
-                output.writeObject(message);
+                 output.writeObject(message);
                 output.flush();
                 return;
             } catch (NullPointerException | IOException e) {
