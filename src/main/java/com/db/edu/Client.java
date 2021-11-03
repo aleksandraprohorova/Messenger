@@ -15,7 +15,6 @@ import static java.lang.System.lineSeparator;
 
 public class Client {
     public static void main(String[] argc) {
-
         Proxy proxy = new Proxy(new Connector());
         MessageCreater creator = new MessageCreater();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -70,7 +69,7 @@ public class Client {
         }
     }
 
-        private static void createMessageSource (String messageSourceName){
+        private static void createMessageSource(String messageSourceName){
             Path path = Path.of(messageSourceName);
             if (!Files.exists(path)) {
                 try {
@@ -81,7 +80,7 @@ public class Client {
             }
         }
 
-        private static void sendNewMessagesAvailable (Proxy proxy, MessageCreater creator, String messageSourceName){
+        private static void sendNewMessagesAvailable(Proxy proxy, MessageCreater creator, String messageSourceName){
             List<String> newMessagePrintedList = getNewMessagePrintedList(messageSourceName);
             if (!newMessagePrintedList.isEmpty()) {
                 while (!newMessagePrintedList.isEmpty()) {
