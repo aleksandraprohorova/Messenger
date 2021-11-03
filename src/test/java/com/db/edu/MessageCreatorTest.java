@@ -96,5 +96,16 @@ public class MessageCreatorTest {
         assertEquals(identifier, newMessage.getIdentifier());
     }
 
+    @Test
+    public void shouldCreateWrongDataMessageWithParser() {
+        String InputMessage  = "/snd <df> <df>";
+        String ResultMessage  = "df df";
+
+        Message newMessage = messageCreatorSut.createMessage(identifier, dateValue, InputMessage);
+        assertEquals(ResultMessage, newMessage.getBody());
+        assertEquals(dateValue ,newMessage.getDateValue());
+        assertEquals(identifier, newMessage.getIdentifier());
+    }
+
 
 }
