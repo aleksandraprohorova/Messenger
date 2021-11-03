@@ -1,11 +1,16 @@
 package com.db.edu;
 
 import com.db.edu.connection.Proxy;
+import com.db.edu.connection.Skeleton;
+import com.db.edu.exception.ServerException;
 import com.db.edu.message.Message;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 
 public class Listener extends Thread{
+    private static Logger log = LoggerFactory.getLogger(Skeleton.class);
 
     public Message getMessage() {
         return messageBuffer;
@@ -32,8 +37,9 @@ public class Listener extends Thread{
         while (true) {
             try {
                 messageBuffer = proxy.receive();
-            } catch (IOException e) {
-                System.out.println("Connection with server lost");
+            } catch (ServerException e) {
+                log.error("Connection timeout.");
+                return;
             }
         }
     }

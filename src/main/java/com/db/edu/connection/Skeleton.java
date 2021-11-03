@@ -60,6 +60,8 @@ public class Skeleton implements Runnable {
 
     public Message receive() throws IOException {
         try {
+            Message message = (Message) input.readObject();
+            log.info("Got message {}", message);
             return (Message) input.readObject();
         } catch (ClassNotFoundException e) {
             log.error("Can not read Message from ObjectStream", e);

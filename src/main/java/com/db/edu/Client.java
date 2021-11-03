@@ -3,6 +3,7 @@ package com.db.edu;
 import com.db.edu.connection.Proxy;
 import com.db.edu.connection.Connector;
 import com.db.edu.creater.MessageCreater;
+import com.db.edu.exception.ServerException;
 import com.db.edu.message.HistMessage;
 import com.db.edu.message.Message;
 
@@ -36,6 +37,7 @@ public class Client {
 
         String outputHistory = "";
         boolean checkHistory = false;
+        final boolean[] serverIsAlive = {true};
 
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -43,8 +45,9 @@ public class Client {
                 Message message = creator.createMessage("id", "data", "/hist");
                 try {
                     proxy.send(message);
-                } catch (IOException e) {
-                   System.out.println("Connection timeout");
+                } catch (ServerException e) {
+                   serverIsAlive[0] = false;
+                   cancel();
                 }
             }
         };
@@ -52,7 +55,7 @@ public class Client {
 
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(timerTask, 0, 5 * 1000);
-        while (true) {
+        while (serverIsAlive[0]) {
             try {
                 if (listener.hasMessage()) {
                     Message answer = listener.getMessage();
@@ -97,7 +100,7 @@ public class Client {
                     Message message = creator.createMessage("id", "data", newMessagePrintedList.remove(0));
                     try {
                         proxy.send(message);
-                    } catch (IOException e) {
+                    } catch (ServerException e) {
                         e.printStackTrace();
                     }
                 }

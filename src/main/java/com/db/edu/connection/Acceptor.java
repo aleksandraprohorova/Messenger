@@ -38,9 +38,10 @@ public class Acceptor {
             throw new ServerException(errorMessage);
         }
         final ExecutorService pool = Executors.newFixedThreadPool(clientsNumber);
+        Socket connection = null;
         try {
             while (true) {
-                final Socket connection = serverSocket.accept();
+                connection = serverSocket.accept();
                 log.info("Accepted new connection");
                 Skeleton client = new Skeleton(connection, controller);
                 pool.execute(client);
@@ -51,7 +52,14 @@ public class Acceptor {
             throw new ServerException(errorMessage);
         } finally {
             try {
-                if (serverSocket != null) serverSocket.close();
+                if (connection != null) {
+                    connection.close();
+                    log.info("Closed connection.");
+                }
+                if (serverSocket != null){
+                    serverSocket.close();
+                    log.info("Closed socket.");
+                }
                 pool.shutdown();
             } catch (IOException e) {
                 log.error("Failed to close ServerSocket", e);
