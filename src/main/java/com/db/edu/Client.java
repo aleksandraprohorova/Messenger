@@ -12,6 +12,12 @@ import java.nio.file.Path;
 import java.util.*;
 
 import static java.lang.System.lineSeparator;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Client {
     public static void main(String[] argc) {
@@ -23,7 +29,6 @@ public class Client {
         Long timeMillis = System.currentTimeMillis();
         String messageSourceName = "messageBuffer" + timeMillis.toString() + ".txt";
         createMessageSource(messageSourceName);
-        createInputConsole();
 
         String outputHistory = "";
         boolean checkHistory = false;
@@ -69,8 +74,8 @@ public class Client {
         }
     }
 
-        private static void createMessageSource(String messageSourceName){
-            Path path = Path.of(messageSourceName);
+        private static void createMessageSource (String messageSourceName){
+            Path path = Paths.get(messageSourceName);
             if (!Files.exists(path)) {
                 try {
                     Files.createFile(path);
