@@ -31,11 +31,13 @@ public class MessageCreatorTest {
     public void shouldCreateCmdMessageWhenReceiveCommand() {
     String Inputcommand  = "/hist";
     String ResultCommand  = "hist";
+    Client client = new Client();
 
         Message newMessage = messageCreatorSut.createMessage(identifier, dateValue, Inputcommand);
         assertEquals(ResultCommand, newMessage.getBody());
         assertEquals(dateValue, newMessage.getDateValue());
         assertEquals(identifier, newMessage.getIdentifier());
+
     }
 
 
@@ -51,8 +53,41 @@ public class MessageCreatorTest {
     }
 
     @Test
+    public void shouldCreateDataMessageWhenReceiveMessageIsEmpty() {
+        String InputMessage  = "/snd  ";
+        String ResultMessage  = "Message can't be empty";
+
+        Message newMessage = messageCreatorSut.createMessage(identifier, dateValue, InputMessage);
+        assertEquals(ResultMessage, newMessage.getBody());
+        assertEquals(dateValue, newMessage.getDateValue());
+        assertEquals(identifier, newMessage.getIdentifier());
+    }
+
+    @Test
+    public void shouldCreateDataMessageWhenReceiveMessageIsLong() {
+        String InputMessage  = "/snd <fffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff  ";
+        String ResultMessage  = "Message can't be longer than 150 symbols.";
+
+        Message newMessage = messageCreatorSut.createMessage(identifier, dateValue, InputMessage);
+        assertEquals(ResultMessage, newMessage.getBody());
+        assertEquals(dateValue, newMessage.getDateValue());
+        assertEquals(identifier, newMessage.getIdentifier());
+    }
+
+    @Test
     public void shouldCreateWrongDataMessageWhenMessageIsInvalid() {
         String InputMessage  = " ";
+        String ResultMessage  = "Wrong message!";
+
+        Message newMessage = messageCreatorSut.createMessage(identifier, dateValue, InputMessage);
+        assertEquals(ResultMessage, newMessage.getBody());
+        assertEquals(dateValue ,newMessage.getDateValue());
+        assertEquals(identifier, newMessage.getIdentifier());
+    }
+
+    @Test
+    public void shouldCreateWrongDataMessageWhenCommandIsInvalid() {
+        String InputMessage  = "/snds";
         String ResultMessage  = "Wrong message!";
 
         Message newMessage = messageCreatorSut.createMessage(identifier, dateValue, InputMessage);
