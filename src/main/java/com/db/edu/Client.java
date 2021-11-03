@@ -15,6 +15,12 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import static java.lang.System.lineSeparator;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Client {
     public static void main(String[] argc) throws IOException {
@@ -27,7 +33,6 @@ public class Client {
         String messageSourceName = "messageBuffer" + timeMillis.toString() + ".txt";
         createMessageSource(messageSourceName);
         ExecutorService executorService = Executors.newFixedThreadPool(1);
-        createInputConsole();
 
         String outputHistory = "";
         boolean checkHistory = false;
