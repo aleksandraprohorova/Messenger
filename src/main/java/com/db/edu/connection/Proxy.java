@@ -24,7 +24,7 @@ public class Proxy {
 
     public void send(Message message) throws ServerException {
         int count = 0;
-        int maxTries = 10;
+        int maxTries = 3;
         while (true) {
             try {
                 output = connector.getOutput();
@@ -43,7 +43,7 @@ public class Proxy {
 
     public Message receive() throws ServerException {
         int count = 0;
-        int maxTries = 10;
+        int maxTries = 3;
         while (true) {
             try {
                 ObjectInputStream input = connector.getInput();
