@@ -3,6 +3,7 @@ package com.db.edu.message;
 import com.db.edu.creater.FileCreater;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public class HistMessage implements Message {
@@ -42,7 +43,7 @@ public class HistMessage implements Message {
     public void makeReturnMessage(FileCreater fileCreater){
         StringBuffer makeString = new StringBuffer();
         try {
-            Files.lines(fileCreater.getFile().toPath()).forEach((e) -> {
+            Files.lines(fileCreater.getFile().toPath(), StandardCharsets.UTF_16).forEach((e) -> {
                 makeString.append(e).append(System.lineSeparator());
             });
         } catch (IOException exception){

@@ -11,12 +11,6 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
-import static java.lang.System.lineSeparator;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -27,13 +21,11 @@ public class Client {
     public static void main(String[] argc) throws IOException {
         Proxy proxy = new Proxy(new Connector());
         MessageCreater creator = new MessageCreater();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         Listener listener = new Listener(proxy);
         listener.start();
         Long timeMillis = System.currentTimeMillis();
         String messageSourceName = "messageBuffer" + timeMillis.toString() + ".txt";
         createMessageSource(messageSourceName);
-        ExecutorService executorService = Executors.newFixedThreadPool(1);
 
         String outputHistory = "";
         boolean checkHistory = false;
@@ -55,32 +47,39 @@ public class Client {
 
         Timer timer = new Timer(true);
         timer.scheduleAtFixedRate(timerTask, 0, 5 * 1000);
-        while (serverIsAlive[0]) {
-            try {
-                if (listener.hasMessage()) {
-                    Message answer = listener.getMessage();
-                    if (answer instanceof HistMessage) {
-                        String answerString = answer.getReturnMessage();
-                        int answerLength = answerString.length();
+        while (serverIsAlive[0]){
+            final BufferedWriter out = new BufferedWriter(new OutputStreamWriter(System.out));
 
-                        if (checkHistory) {
-                            System.out.println(answerString);
-                            checkHistory = false;
-                        } else {
-                            if (!outputHistory.equals(answer.getReturnMessage())) {
-                                System.out.println(answerString.substring(outputHistory.length(), answerLength - 1));
-                                outputHistory = answer.getReturnMessage();
+            while (true) {
+                try {
+                    if (listener.hasMessage()) {
+                        Message answer = listener.getMessage();
+                        if (answer instanceof HistMessage) {
+                            String answerString = answer.getReturnMessage();
+                            int answerLength = answerString.length();
+
+                            if (checkHistory) {
+                                out.write(answerString);
+                                out.flush();
+                                checkHistory = false;
+                            } else {
+                                if (!outputHistory.equals(answer.getReturnMessage())) {
+                                    out.write(answerString.substring(outputHistory.length(), answerLength - 1));
+                                    out.flush();
+                                    outputHistory = answer.getReturnMessage();
+                                }
                             }
                         }
+                        listener.resetMessage();
                     }
-                    listener.resetMessage();
+                    sendNewMessagesAvailable(proxy, creator, messageSourceName);
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
-                sendNewMessagesAvailable(proxy, creator, messageSourceName);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
         }
     }
+    }
+
 
         private static void createMessageSource(String messageSourceName){
             Path path = Paths.get(messageSourceName);
@@ -108,12 +107,12 @@ public class Client {
         }
 
         private static List<String> getNewMessagePrintedList(String messageSourceName) {
+            Scanner scanner = null;
             try {
-                System.setIn(new FileInputStream(messageSourceName));
+                scanner = new Scanner(new FileInputStream(messageSourceName), "UTF-16");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             }
-            Scanner scanner = new Scanner(System.in);
 
             List<String> newMessagePrintedList = new ArrayList<>();
             if (scanner.hasNextLine()) {
@@ -130,6 +129,7 @@ public class Client {
                     e.printStackTrace();
                 }
             }
+            scanner.close();
             return newMessagePrintedList;
         }
 
